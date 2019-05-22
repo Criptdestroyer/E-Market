@@ -41,10 +41,10 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int position) {
         categoryViewHolder.tvName.setText(getListBook().get(position).getName());
         categoryViewHolder.tvDescription.setText(getListBook().get(position).getDescription());
-        categoryViewHolder.tvPrice.setText(getListBook().get(position).getPrice());
+        categoryViewHolder.tvPrice.setText("Rp. "+getListBook().get(position).getPrice());
         Glide.with(context)
                 .load(getListBook().get(position).getPhoto())
-                .apply(new RequestOptions().override(55,55))
+                .apply(new RequestOptions().override(500,500))
                 .into(categoryViewHolder.imgPhoto);
     }
 
