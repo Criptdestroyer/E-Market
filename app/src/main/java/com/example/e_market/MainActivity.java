@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showDetail(Book book) {
-
+        Toast.makeText(this, "Kamu memilih "+book.getName(), Toast.LENGTH_SHORT).show();
     }
 
     private void showRecyclerList() {
@@ -48,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
         ListBookAdapter listBookAdapter = new ListBookAdapter(this);
         listBookAdapter.setListBook(list);
         rvCategory.setAdapter(listBookAdapter);
+
+        ItemClickSupport.addTo(rvCategory).setmOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                showDetail(list.get(position));
+            }
+        });
     }
 
     @Override
