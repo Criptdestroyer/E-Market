@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.CategoryViewHolder> {
@@ -23,6 +26,10 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.Catego
         this.listBook = listBook;
     }
 
+    public ListBookAdapter(Context context) {
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -32,7 +39,13 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int position) {
-
+        categoryViewHolder.tvName.setText(getListBook().get(position).getName());
+        categoryViewHolder.tvDescription.setText(getListBook().get(position).getDescription());
+        categoryViewHolder.tvPrice.setText(getListBook().get(position).getPrice());
+        Glide.with(context)
+                .load(getListBook().get(position).getPhoto())
+                .apply(new RequestOptions().override(55,55))
+                .into(categoryViewHolder.imgPhoto);
     }
 
     @Override
@@ -48,7 +61,10 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.Catego
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById();
+            tvName = itemView.findViewById(R.id.tv_item_name);
+            tvDescription = itemView.findViewById(R.id.tv_item_description);
+            tvPrice = itemView.findViewById(R.id.tv_item_price);
+            imgPhoto = itemView.findViewById(R.id.img_item_photo);
         }
     }
 }
