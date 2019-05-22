@@ -1,6 +1,7 @@
 
 package com.example.e_market;
 
+import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showDetail(Book book) {
-        Toast.makeText(this, "Kamu memilih "+book.getName(), Toast.LENGTH_SHORT).show();
-    }
-
     private void showRecyclerList() {
         rvCategory.setLayoutManager(new LinearLayoutManager(this));
         ListBookAdapter listBookAdapter = new ListBookAdapter(this);
@@ -54,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         ItemClickSupport.addTo(rvCategory).setmOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                showDetail(list.get(position));
+                Intent moveIntent = new Intent(MainActivity.this,DetailCardActivity.class);
+                startActivity(moveIntent);
             }
         });
     }
