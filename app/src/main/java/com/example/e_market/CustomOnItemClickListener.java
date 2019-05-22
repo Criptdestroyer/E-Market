@@ -12,6 +12,11 @@ public class CustomOnItemClickListener implements View.OnClickListener {
         this.onItemClickCallBack = onItemClickCallBack;
     }
 
+    public CustomOnItemClickListener(OnItemClickCallBack onItemClickCallBack) {
+        this.position = 0;
+        this.onItemClickCallBack = onItemClickCallBack;
+    }
+
     public interface  OnItemClickCallBack{
         void onItemClicked(View view, int position);
     }

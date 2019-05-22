@@ -16,10 +16,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView rvCategory;
     private ArrayList<Book> list = new ArrayList<>();
-    final String STATE_TITLE = "state_string";
-    final String STATE_LIST = "state_list";
-    final String STATE_MODE = "state_mode";
-    int mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +25,11 @@ public class MainActivity extends AppCompatActivity {
         rvCategory = findViewById(R.id.rv_category);
         rvCategory.setHasFixedSize(true);
 
-        if (savedInstanceState == null) {
-            list.addAll(BookData.getListData());
-            setActionBarTitle("E-Market : Book");
-            showRecyclerList();
-        } else {
-            String stateTitle = savedInstanceState.getString(STATE_TITLE);
-            ArrayList<Book> stateList = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            int stateMode = savedInstanceState.getInt(STATE_MODE);
-            list.addAll(BookData.getListData());
-            setMode(stateMode);
-        }
+
+        list.addAll(BookData.getListData());
+        setActionBarTitle("E-Market : Book");
+        showRecyclerList();
+
     }
 
     private void showRecyclerList() {
@@ -51,39 +41,17 @@ public class MainActivity extends AppCompatActivity {
         ItemClickSupport.addTo(rvCategory).setmOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Intent moveIntent = new Intent(MainActivity.this,DetailCardActivity.class);
-                startActivity(moveIntent);
+                Intent move = new Intent(MainActivity.this, DetailActivity.class);
+                move.putExtra(DetailActivity.EXTRA_NAME, list.get(position).getName());
+                move.putExtra(DetailActivity.EXTRA_DESCRIPTION, list.get(position).getDescription());
+                move.putExtra(DetailActivity.EXTRA_PRICE, list.get(position).getPrice());
+                move.putExtra(DetailActivity.EXTRA_PHOTO, list.get(position).getPhoto());
+                startActivity(move);
             }
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        setMode(item.getItemId());
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void setMode(int selectedMode) {
-        String title = null;
-        switch (selectedMode) {
-            case R.id.activity_main:
-                title = "E-Market : Book";
-                showRecyclerList();
-                break;
-        }
-        mode = selectedMode;
-        setActionBarTitle(title);
-    }
-
     private void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(STATE_TITLE,getSupportActionBar().getTitle().toString());
-        outState.putParcelableArrayList(STATE_LIST, list);
-        outState.putInt(STATE_MODE, mode);
     }
 }
