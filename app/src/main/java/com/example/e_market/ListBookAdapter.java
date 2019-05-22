@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -46,6 +48,12 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.Catego
                 .load(getListBook().get(position).getPhoto())
                 .apply(new RequestOptions().override(500,500))
                 .into(categoryViewHolder.imgPhoto);
+        categoryViewHolder.btnBuy.setOnClickListener(new CustomOnItemClickListener(position, new CustomOnItemClickListener.OnItemClickCallBack() {
+            @Override
+            public void onItemClicked(View view, int position) {
+                Toast.makeText(context, "Buy "+getListBook().get(position).getName()+" Book", Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 
     @Override
@@ -58,6 +66,7 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.Catego
         TextView tvDescription;
         TextView tvPrice;
         ImageView imgPhoto;
+        Button btnBuy;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +74,7 @@ public class ListBookAdapter extends RecyclerView.Adapter<ListBookAdapter.Catego
             tvDescription = itemView.findViewById(R.id.tv_item_description);
             tvPrice = itemView.findViewById(R.id.tv_item_price);
             imgPhoto = itemView.findViewById(R.id.img_item_photo);
+            btnBuy = itemView.findViewById(R.id.btn_buy);
         }
     }
 }
